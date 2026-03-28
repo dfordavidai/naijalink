@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "name": "naijalinker",
+  "routes": [
+    { "src": "/link/([a-z]{5})", "dest": "/api/redirect?code=$1" },
+    { "src": "/sitemap.xml",     "dest": "/api/sitemap" },
+    { "src": "/feed.xml",        "dest": "/api/feed" },
+    { "src": "/indexcore.txt",   "dest": "/api/indexnow-key" },
+    { "src": "/robots.txt",      "dest": "/api/robots" },
+    { "src": "/api/(.*)",        "dest": "/api/$1" },
+    { "src": "/(.*)",            "dest": "/public/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/link/(.*)",
+      "headers": [
+        { "key": "Cache-Control",  "value": "no-store, max-age=0" },
+        { "key": "X-Robots-Tag",   "value": "all" },
+        { "key": "Server-Timing",  "value": "db;dur=4, cache;dur=1, total;dur=12" },
+        { "key": "Link",           "value": "<https://naijalinker.vercel.app/sitemap.xml>; rel=preconnect" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type",  "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/feed.xml",
+      "headers": [
+        { "key": "Content-Type",  "value": "application/atom+xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",         "value": "SAMEORIGIN" }
+      ]
+    }
+  ],
+  "env": {
+    "SUPABASE_URL": "@supabase_url",
+    "SUPABASE_KEY": "@supabase_key"
+  }
+}
