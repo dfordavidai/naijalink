@@ -476,7 +476,7 @@ textarea{resize:vertical;line-height:1.7}
           <div class="card-label">🗺 Live Sitemap — Auto-Updated on Every Link Add</div>
           <div style="font-size:.62rem;color:var(--muted);line-height:1.7;margin-bottom:10px">
             Every time you add a URL, its short link is instantly added to the in-memory sitemap and all crawl signals are fired automatically — Google + Bing ping, PubSubHubbub, WebSub.
-            Your Vercel Edge Function should serve the dynamic sitemap from Supabase at <span style="color:var(--accent)">https://naijalinker.vercel.app/sitemap.xml</span>.
+            Your Vercel Edge Function should serve the dynamic sitemap from Supabase at <span style="color:var(--accent)">https://tinubunews.com.ng/sitemap.xml</span>.
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
             <button class="btn btn-outline" style="font-size:.6rem" onclick="viewSitemap()">👁 Preview Sitemap XML</button>
@@ -703,7 +703,7 @@ textarea{resize:vertical;line-height:1.7}
         </div>
 
         <div style="margin-top:12px">
-          <input id="gsc-site" placeholder="GSC Property URL — e.g. https://naijalinker.vercel.app/" oninput="saveGscSettings()">
+          <input id="gsc-site" placeholder="GSC Property URL — e.g. https://tinubunews.com.ng/" oninput="saveGscSettings()">
           <div class="hint">Must match exactly the property added in Google Search Console (including trailing slash).</div>
         </div>
       </div>
@@ -714,13 +714,13 @@ textarea{resize:vertical;line-height:1.7}
         <div style="font-size:.62rem;color:var(--muted);line-height:1.8">
           <div style="margin-bottom:8px"><strong style="color:var(--text)">robots.txt</strong> — Add these lines to maximize Googlebot's crawl aggressiveness:</div>
           <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:var(--mono);font-size:.6rem;color:var(--accent);line-height:2">
-            User-agent: *<br>Allow: /<br>Disallow: /api/<br><br>User-agent: Googlebot<br>Crawl-delay: 0<br>Allow: /<br>Allow: /link/<br><br>Sitemap: https://naijalinker.vercel.app/sitemap.xml
+            User-agent: *<br>Allow: /<br>Disallow: /api/<br><br>User-agent: Googlebot<br>Crawl-delay: 0<br>Allow: /<br>Allow: /link/<br><br>Sitemap: https://tinubunews.com.ng/sitemap.xml
           </div>
           <div style="margin-top:10px;margin-bottom:6px"><strong style="color:var(--text)">Response Headers</strong> — Add to your Vercel Edge Function for crawl trust signals:</div>
           <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:var(--mono);font-size:.6rem;color:var(--blue);line-height:2">
             Server-Timing: db;dur=4, cache;dur=1, total;dur=12<br>
-            Link: &lt;https://naijalinker.vercel.app/sitemap.xml&gt;; rel=preconnect<br>
-            Link: &lt;https://naijalinker.vercel.app/feed.xml&gt;; rel=prefetch
+            Link: &lt;https://tinubunews.com.ng/sitemap.xml&gt;; rel=preconnect<br>
+            Link: &lt;https://tinubunews.com.ng/feed.xml&gt;; rel=prefetch
           </div>
           <div class="hint" style="margin-top:8px">Target &lt;50ms TTFB on your Edge Function. Use Vercel KV (Redis) to cache code→target map for sub-20ms warm reads. Google assigns more crawl budget to fast-responding domains.</div>
         </div>
@@ -826,11 +826,11 @@ https://forum.example.com/post/123"></textarea>
 // ══════════════════════════════════════════════════════════
 
 // ── Config ────────────────────────────────────────────────
-const SHORT_BASE       = 'https://naijalinker.vercel.app/link/';
-const SITEMAP_URL      = 'https://naijalinker.vercel.app/sitemap.xml';
-const FEED_URL         = 'https://naijalinker.vercel.app/feed.xml';
+const SHORT_BASE       = 'https://tinubunews.com.ng/link/';
+const SITEMAP_URL      = 'https://tinubunews.com.ng/sitemap.xml';
+const FEED_URL         = 'https://tinubunews.com.ng/feed.xml';
 const INDEXNOW_KEY     = 'indexcore';
-const INDEXNOW_KEY_LOC = 'https://naijalinker.vercel.app/indexcore.txt';
+const INDEXNOW_KEY_LOC = 'https://tinubunews.com.ng/indexcore.txt';
 const SB_URL           = 'https://rbqfmhyuzdizaexbfcem.supabase.co';
 const SB_KEY           = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJicWZtaHl1emRpemFleGJmY2VtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDQwOTIsImV4cCI6MjA5MDEyMDA5Mn0.jXYe6qqqc5NCxvMPVVhiGqMYXfyiQ92bj5eCQt2J4WM';
 const H                = {'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'};
@@ -1436,7 +1436,7 @@ function setProgress(pct){
 // ══════════════════════════════════════════════════════════
 async function runIndexing(){
   const pid  = document.getElementById('idx-proj-sel').value;
-  const site = document.getElementById('gsc-site').value.trim()||'https://naijalinker.vercel.app/';
+  const site = document.getElementById('gsc-site').value.trim()||'https://tinubunews.com.ng/';
   if(!pid){ toast('Select a project first',''); return; }
   const pl = links[pid]||[];
   const shortUrls = pl.map(l=>SHORT_BASE+l.code);
@@ -1556,7 +1556,7 @@ async function runIndexing(){
   if(chanSettings.indexnow){
     idxLog('📡 IndexNow → all engines simultaneously…','info');
     const payload = JSON.stringify({
-      host:'naijalinker.vercel.app',
+      host:'tinubunews.com.ng',
       key: INDEXNOW_KEY,
       keyLocation: INDEXNOW_KEY_LOC,
       urlList: shortUrls
@@ -1584,7 +1584,7 @@ async function runIndexing(){
         const r = await fetch(`https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${encodeURIComponent(bKey)}`,{
           method:'POST',
           headers:{'Content-Type':'application/json; charset=utf-8'},
-          body:JSON.stringify({siteUrl:'https://naijalinker.vercel.app', urlList:shortUrls.slice(0,500)})
+          body:JSON.stringify({siteUrl:'https://tinubunews.com.ng', urlList:shortUrls.slice(0,500)})
         });
         idxLog(r.ok ? `🔎 Bing Webmaster: ${Math.min(shortUrls.length,500)} URLs submitted ✓` : `🔎 Bing: HTTP ${r.status}`,'ok');
       }catch(e){ idxLog(`⚠ Bing API: ${e.message}`,'info'); }
@@ -1674,7 +1674,7 @@ async function xmlrpcPingBlast(targetUrl, logTarget='idx'){
     'https://ping.rootblog.com/rpc.php',
     'https://www.blogpeople.net/servlet/weblogUpdates',
   ];
-  const body = xmlRpcBody('naijalinker.vercel.app', targetUrl);
+  const body = xmlRpcBody('tinubunews.com.ng', targetUrl);
   const results = await Promise.allSettled(
     endpoints.map(ep=>fetch(ep,{method:'POST',headers:{'Content-Type':'text/xml'},body,mode:'no-cors'}))
   );
@@ -1711,7 +1711,7 @@ async function manualSitemapPing(){
 // ══════════════════════════════════════════════════════════
 async function runEscalation(){
   const pid  = document.getElementById('esc-proj-sel').value;
-  const site = document.getElementById('gsc-site').value.trim()||'https://naijalinker.vercel.app/';
+  const site = document.getElementById('gsc-site').value.trim()||'https://tinubunews.com.ng/';
   document.getElementById('esc-log').innerHTML='';
 
   const targetLinks = pid==='all'
@@ -1748,7 +1748,7 @@ async function runEscalation(){
     }
 
     // All retry tiers: IndexNow blast
-    const payload=JSON.stringify({host:'naijalinker.vercel.app',key:INDEXNOW_KEY,keyLocation:INDEXNOW_KEY_LOC,urlList:[short]});
+    const payload=JSON.stringify({host:'tinubunews.com.ng',key:INDEXNOW_KEY,keyLocation:INDEXNOW_KEY_LOC,urlList:[short]});
     await Promise.allSettled(['https://api.indexnow.org/indexnow','https://www.bing.com/indexnow','https://yandex.com/indexnow'].map(ep=>fetch(ep,{method:'POST',headers:{'Content-Type':'application/json; charset=utf-8'},body:payload})));
     escLog(`  ✓ IndexNow fired`,'ok');
 
@@ -2008,7 +2008,7 @@ async function openCrawlDetails(shortUrl, originalUrl){
   loadPagePreview(originalUrl);
 
   const sa   = getNextSA();
-  const site = document.getElementById('gsc-site').value.trim()||'https://naijalinker.vercel.app/';
+  const site = document.getElementById('gsc-site').value.trim()||'https://tinubunews.com.ng/';
 
   if(!sa){
     sections.innerHTML = `<div class="crawl-no-sa">
