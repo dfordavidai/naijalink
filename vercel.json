@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "naijalinker",
+  "name": "tinubunews",
   "routes": [
     { "src": "/link/([a-z]{5})", "dest": "/api/redirect?code=$1" },
     { "src": "/sitemap.xml",     "dest": "/api/sitemap" },
@@ -17,7 +17,7 @@
         { "key": "Cache-Control",  "value": "no-store, max-age=0" },
         { "key": "X-Robots-Tag",   "value": "all" },
         { "key": "Server-Timing",  "value": "db;dur=4, cache;dur=1, total;dur=12" },
-        { "key": "Link",           "value": "<https://naijalinker.vercel.app/sitemap.xml>; rel=preconnect" }
+        { "key": "Link",           "value": "<https://tinubunews.com.ng/sitemap.xml>; rel=preconnect" }
       ]
     },
     {
